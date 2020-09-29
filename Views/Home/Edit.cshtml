@@ -1,0 +1,110 @@
+﻿@model TareasWebApp.Models.SPTareaListarIdCLS
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Editar Tarea</h1>
+<div>
+    <a asp-action="Index">Volver.</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        @{ if (ViewBag.validation == 0)
+            {
+                <div class="alert alert-danger col-lg-12" role="alert">
+                    No puedes modificar una tarea finalizada" !
+                </div>
+            }
+        }
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div hidden>
+                <label asp-for="TAREAS_ID" class="control-label"></label>
+                <input asp-for="TAREAS_ID" class="form-control" />
+                <span asp-validation-for="TAREAS_ID" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Descripción</label>
+                        <input asp-for="TAREAS_DESCRIPCION" class="form-control" />
+                        <span asp-validation-for="TAREAS_DESCRIPCION" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Colaborador</label>
+                        @Html.DropDownListFor(model => model.COLABORADOR_ID, new SelectList(ViewBag.ListaColaboradores, "COLABORADOR_ID", "NOMBRE"), "Seleccione un estado", new { @class = "form-control form-control-md" })
+                        @Html.ValidationMessageFor(model => model.COLABORADOR_ID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fecha Inicio</label>
+                        <input asp-for="TAREAS_FECHA_INICIO" class="form-control" />
+                        <span asp-validation-for="TAREAS_FECHA_INICIO" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fecha Fin</label>
+                        <input asp-for="TAREA_FECHA_FIN" class="form-control" />
+                        <span asp-validation-for="TAREA_FECHA_FIN" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label for="TAREAS_PRIORIDAD">Prioridad</label>
+                        <select class="form-control" asp-for="TAREAS_PRIORIDAD" id="TAREAS_PRIORIDAD" name="TAREAS_PRIORIDAD">
+                            <option value="NULL">Seleccione</option>
+                            <option value="ALTA">ALTA</option>
+                            <option value="MEDIA">MEDIA</option>
+                            <option value="BAJA">BAJA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label for="TAREAS_ESTADO">Estado</label>
+                        <select class="form-control" asp-for="TAREAS_ESTADO" id="TAREAS_ESTADO" name="TAREAS_ESTADO">
+                            <option value="NULL">Seleccione</option>
+                            <option value="PENDIENTE">PENDIENTE</option>
+                            <option value="EN PROCESO">EN PROCESO</option>
+                            <option value="FINALIZADA">FINALIZADA</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Notas</label>
+                        <textarea asp-for="TAREAS_NOTAS" class="form-control"></textarea>
+                        <span asp-validation-for="TAREAS_NOTAS" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Modificar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

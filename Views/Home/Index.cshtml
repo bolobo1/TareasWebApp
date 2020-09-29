@@ -1,0 +1,110 @@
+﻿@model IEnumerable<SPTareasListarCLS>
+
+@{
+    ViewData["Title"] = "Tareas";
+}
+<link href="~/css/bootstrap.css.css" rel="stylesheet" />
+<link href="~/css/dataTables.bootstrap4.min.css.css" rel="stylesheet" />
+<link href="~/Iconos/Fontawesome/css/all.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-sm-12 mb-4">
+        <h4>Agregar tarea</h4>
+        <a class="btn btn-lg btn-primary" asp-controller="Home" asp-action="Create">
+            <i class="fas fa-plus"></i>
+            Agregar
+        </a>
+    </div>
+    <br />
+    @{ if (ViewBag.validation == 0)
+        {
+        <div class="alert alert-danger col-lg-12" role="alert">
+            No puedes eliminar una tarea en proceso" !
+        </div>
+        }
+        
+        if(ViewBag.validation == 1)
+        {
+            <div class="alert alert-success col-lg-12" role="alert">
+                Se ha eliminado el registro exitosamente !
+            </div>
+        }
+    }
+    <br />
+    <div class="col-lg-12">
+        @try
+        {
+            <table id="TablaTareas" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th nowrap>@Html.DisplayNameFor(item => item.TAREAS_DESCRIPCION)</th>
+                        <th nowrap>@Html.DisplayNameFor(item => item.TAREAS_ESTADO)</th>
+                        <th nowrap>@Html.DisplayNameFor(item => item.TAREAS_PRIORIDAD)</th>
+                        <th nowrap>@Html.DisplayNameFor(item => item.TAREAS_FECHA_INICIO)</th>
+                        <th nowrap>@Html.DisplayNameFor(item => item.TAREA_FECHA_FIN)</th>
+                        <th nowrap>@Html.DisplayNameFor(item => item.NOMBRE)</th>
+                        <th nowrap>Details</th>
+                        <th nowrap>Edit</th>
+                        <th nowrap>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var Item in Model)
+                    {
+                        <tr class="align-baseline">
+                            <td nowrap>@Item.TAREAS_DESCRIPCION</td>
+                            <td nowrap>@Item.TAREAS_ESTADO</td>
+                            <td nowrap>@Item.TAREAS_PRIORIDAD </td>
+                            <td nowrap>@Item.TAREAS_FECHA_INICIO</td>
+                            <td nowrap>@Item.TAREA_FECHA_FIN</td>
+                            <td nowrap>@Item.NOMBRE</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Home", new { TAREAS_ID = Item.TAREAS_ID })" title="Details" class="btn btn-sm">
+                                    <i class="fas fa-2x fa-book text-success"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Home", new { TAREAS_ID = Item.TAREAS_ID })" title="Edit" class="btn btn-sm">
+                                    <i class="fas fa-2x fa-fw fa-edit text-primary"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", "Home", new { TAREAS_ID = Item.TAREAS_ID })" title="Delete" class="btn btn-sm">
+                                    <i class="far fa-2x fa-trash-alt text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        catch (Exception error)
+        {
+            <div class="alert alert-danger" role="alert">
+                Error con el servidor contactar al administrador
+
+            </div>
+            <br />
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/jquery-3.5.1.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/sweetalert2@10.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#TablaTareas').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
+
+        });
+    </script>
+}
